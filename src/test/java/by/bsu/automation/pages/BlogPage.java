@@ -9,7 +9,6 @@ import org.openqa.selenium.support.PageFactory;
 public class BlogPage extends AbstractPage
 {
     private final String BASE_URL = "http://getthatautomated.tumblr.com";
-    private final String LINK = "seleniumhq.org";
     private final Logger logger = Logger.getLogger(LoginPage.class);
 
     @FindBy(className = "link-host")

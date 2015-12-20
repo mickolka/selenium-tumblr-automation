@@ -23,13 +23,13 @@ public class Steps
         driver = new FirefoxDriver();
         driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        logger.info("Browser initialized");
+        logger.info("Initialized browser");
     }
 
     public void closeDriver()
     {
         driver.quit();
-        logger.info("Browser stopped");
+        logger.info("Stopped browser");
     }
 
     public void loginTumblr(String username, String password)
@@ -62,5 +62,6 @@ public class Steps
 
     private void openNewTab() {
         driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "t");
+        logger.info("Opened new tab");
     }
 }
