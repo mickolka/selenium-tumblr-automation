@@ -21,8 +21,8 @@ public class Steps
     public void initBrowser()
     {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(25, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
         logger.info("Initialized browser");
     }
 
@@ -43,7 +43,7 @@ public class Steps
     {
         DashboardPage dashboardPage = new DashboardPage(driver);
         dashboardPage.openPage();
-        return (dashboardPage.getLoggedInUserName().equals(username));
+        return (username.equals(dashboardPage.getLoggedInUserName()));
     }
 
     public void postLinkTumblr(String link){
@@ -57,7 +57,7 @@ public class Steps
         BlogPage blogPage = new BlogPage(driver);
         openNewTab();
         blogPage.openPage();
-        return (blogPage.getLink().equals(link));
+        return (link.equals(blogPage.getLink()));
     }
 
     private void openNewTab() {
