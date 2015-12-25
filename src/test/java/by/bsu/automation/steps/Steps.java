@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import by.bsu.automation.pages.BlogPage;
 import by.bsu.automation.pages.DashboardPage;
 import by.bsu.automation.pages.LoginPage;
+import by.bsu.automation.pages.SearchPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -21,6 +22,7 @@ public class Steps
     public void initBrowser()
     {
         driver = new FirefoxDriver();
+        driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(25, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
         logger.info("Initialized browser");
@@ -52,12 +54,17 @@ public class Steps
         dashboardPage.postLink(link);
     }
 
-    public boolean hasLink(String link)
+    public boolean hasPost(String link)
     {
         BlogPage blogPage = new BlogPage(driver);
         openNewTab();
         blogPage.openPage();
         return (link.equals(blogPage.getLink()));
+    }
+
+    public boolean isTagged(String searchTerm) {
+        SearchPage searchPage = new SearchPage(driver);
+        return(searchPage.isPresentInAllPosts(searchTerm));
     }
 
     private void openNewTab() {

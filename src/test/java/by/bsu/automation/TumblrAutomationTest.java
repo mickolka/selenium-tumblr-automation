@@ -13,6 +13,7 @@ public class TumblrAutomationTest {
     private final String EMAIL = "i295491@trbvm.com";
     private final String PASSWORD = "comeonselenium";
     private final String LINK = "seleniumhq.org";
+    private final String SEARCH_TERM = "tokyo";
 
     @BeforeMethod (description = "Init browser")
     public void setUp() {
@@ -30,7 +31,12 @@ public class TumblrAutomationTest {
     public void oneCanPostLink() {
         steps.loginTumblr(EMAIL, PASSWORD);
         steps.postLinkTumblr(LINK);
-        Assert.assertTrue(steps.hasLink(LINK));
+        Assert.assertTrue(steps.hasPost(LINK));
+    }
+
+    @Test (description = "Search at Tumblr")
+    public void oneCanSearch() {
+        Assert.assertTrue(steps.isTagged(SEARCH_TERM));
     }
 
     @AfterMethod (description = "Stop Browser")
