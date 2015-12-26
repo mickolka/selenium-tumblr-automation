@@ -43,9 +43,4 @@ public class LoginPage extends AbstractPage
         submitButton.click();
         logger.info("Logged in");
     }
-
-    public String getLoggedInUserName()
-    {
-        return username.getText();
-    }
 }

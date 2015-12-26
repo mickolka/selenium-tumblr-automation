@@ -11,7 +11,7 @@ import org.openqa.selenium.support.PageFactory;
  * Created by MiCkolka on 25.12.2015.
  */
 public class SearchPage extends AbstractPage {
-    private final String BASE_URL = "https://www.tumblr.com/isPresentInAllPosts/";
+    private final String BASE_URL = "https://www.tumblr.com/search/";
     private final Logger logger = Logger.getLogger(LoginPage.class);
 
     @FindBy (id = "search_posts")
@@ -33,7 +33,7 @@ public class SearchPage extends AbstractPage {
     public boolean isPresentInAllPosts(String searchTerm) {
         boolean flag;
         driver.navigate().to(BASE_URL + searchTerm);
-        logger.info("Opened isPresentInAllPosts page for term \"" + searchTerm + "\"");
+        logger.info("Opened search page for term \"" + searchTerm + "\"");
         for(WebElement post: searchResults.findElements(By.tagName("article"))){
             flag = false;
             for(WebElement tag: post.findElements(By.className("post_tag"))){
