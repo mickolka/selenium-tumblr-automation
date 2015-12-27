@@ -1,6 +1,7 @@
 package by.bsu.automation.pages;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,6 +24,9 @@ public class LoginPage extends AbstractPage
     @FindBy(xpath = "//span[@class='blog-list-item-info-name']")
     private WebElement username;
 
+    @FindBy(id = "search_query")
+    private WebElement searchField;
+
     public LoginPage(WebDriver driver)
     {
         super(driver);
@@ -42,5 +46,11 @@ public class LoginPage extends AbstractPage
         inputPassword.sendKeys(password);
         submitButton.click();
         logger.info("Logged in");
+    }
+
+    public void searchFor(String searchTerm) {
+        searchField.sendKeys(searchTerm);
+        searchField.sendKeys(Keys.ENTER);
+        logger.info("Started search for term '" + searchTerm + "'");
     }
 }

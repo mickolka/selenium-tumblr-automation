@@ -2,15 +2,14 @@ package by.bsu.automation.steps;
 
 import java.util.concurrent.TimeUnit;
 
-import by.bsu.automation.pages.BlogPage;
-import by.bsu.automation.pages.DashboardPage;
-import by.bsu.automation.pages.LoginPage;
-import by.bsu.automation.pages.SearchPage;
+import by.bsu.automation.pages.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class Steps
@@ -23,8 +22,8 @@ public class Steps
     {
         driver = new FirefoxDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(25, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(25, TimeUnit.SECONDS)
+                .implicitlyWait(25, TimeUnit.SECONDS);
         logger.info("Initialized browser");
     }
 
@@ -48,23 +47,54 @@ public class Steps
         return (username.equals(dashboardPage.getLoggedInUserName()));
     }
 
-    public void postLinkTumblr(String link){
+    public boolean postTextTumblr(String text){
         DashboardPage dashboardPage = new DashboardPage(driver);
         dashboardPage.openPage();
-        dashboardPage.postLink(link);
+        int count = dashboardPage.getPostCount();
+        dashboardPage.postText(text);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='knight-rider-container loading']")));
+        return(count+1 == dashboardPage.getPostCount());
     }
 
-    public boolean hasPost(String link)
+    public boolean hasPost(String text)
     {
         BlogPage blogPage = new BlogPage(driver);
         openNewTab();
         blogPage.openPage();
-        return (link.equals(blogPage.getLink()));
+        return (text.equals(blogPage.getFirstPostText()));
+    }
+
+    public void search(String searchTerm) {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.openPage();
+        loginPage.searchFor(searchTerm);
     }
 
     public boolean isTagged(String searchTerm) {
         SearchPage searchPage = new SearchPage(driver);
         return(searchPage.isPresentInAllPosts(searchTerm));
+    }
+
+    public boolean deleteLatestPost() {
+        DashboardPage dashboardPage = new DashboardPage(driver);
+        dashboardPage.openPage();
+        int count = dashboardPage.getPostCount();
+        dashboardPage.deletePost();
+        driver.navigate().refresh();
+        return(count-1 == dashboardPage.getPostCount());
+    }
+
+    public String likeFirstPost() {
+        SearchPage searchPage = new SearchPage(driver);
+        return searchPage.likeFirstPostAndGetId();
+    }
+
+
+    public boolean isLiked(String postId) {
+        LikesPage likesPage = new LikesPage(driver);
+        likesPage.openPage();
+        return likesPage.isLiked(postId);
     }
 
     private void openNewTab() {

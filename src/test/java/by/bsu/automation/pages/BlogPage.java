@@ -11,8 +11,8 @@ public class BlogPage extends AbstractPage
     private final String BASE_URL = "http://getthatautomated.tumblr.com";
     private final Logger logger = Logger.getLogger(LoginPage.class);
 
-    @FindBy(className = "link-host")
-    private WebElement link;
+    @FindBy(xpath = "//section[@id='posts']//article[1]//p")
+    private WebElement firstPostText;
 
 
     public BlogPage(WebDriver driver)
@@ -28,9 +28,8 @@ public class BlogPage extends AbstractPage
         logger.info("Opened blog page");
     }
 
-    public String getLink()
+    public String getFirstPostText()
     {
-        return link.getText();
+        return firstPostText.getText();
     }
-
 }

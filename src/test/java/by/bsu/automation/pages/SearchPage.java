@@ -32,8 +32,6 @@ public class SearchPage extends AbstractPage {
 
     public boolean isPresentInAllPosts(String searchTerm) {
         boolean flag;
-        driver.navigate().to(BASE_URL + searchTerm);
-        logger.info("Opened search page for term \"" + searchTerm + "\"");
         for(WebElement post: searchResults.findElements(By.tagName("article"))){
             flag = false;
             for(WebElement tag: post.findElements(By.className("post_tag"))){
@@ -46,5 +44,12 @@ public class SearchPage extends AbstractPage {
             }
         }
         return true;
+    }
+
+
+    public String likeFirstPostAndGetId() {
+        WebElement firstPost = searchResults.findElements(By.tagName("article")).get(0);
+        firstPost.findElement(By.xpath("//div[contains(@class, 'like')]")).click();
+        return firstPost.getAttribute("data-post-id");
     }
 }
